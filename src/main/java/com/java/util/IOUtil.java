@@ -1,13 +1,7 @@
 package com.java.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.URL;
 import java.util.Properties;
 
 public class IOUtil {
@@ -16,8 +10,12 @@ public class IOUtil {
 		BufferedReader reader=null;
 		String line;
 		try {
-			reader=new BufferedReader(new FileReader(path));
+			URL url=IOUtil.class.getClassLoader().getResource(path);
+
+			reader=new BufferedReader(new FileReader(url.getFile()));
+
 			while((line=reader.readLine())!=null) {
+				System.out.println("读取文件的行字符："+line);
 				if(line.startsWith("#")) {
 					continue;
 				}
@@ -51,7 +49,8 @@ public class IOUtil {
 		try {
 			//InputStream input=new FileInputStream(path);
 			//prop.load(new InputStreamReader(input, "utf-8"));
-			prop.load(new FileInputStream(new File(path)));
+			URL url=IOUtil.class.getClassLoader().getResource(path);
+			prop.load(new FileInputStream(new File(url.getFile())));
 			return prop.getProperty(key);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -64,4 +63,5 @@ public class IOUtil {
 		}
 		return null;
 	}
+
 }

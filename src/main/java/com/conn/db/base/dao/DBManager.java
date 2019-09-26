@@ -1,15 +1,14 @@
 package com.conn.db.base.dao;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.conn.db.base.entity.Constants;
 import com.java.util.IOUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 
 public class DBManager {
@@ -68,8 +67,9 @@ public class DBManager {
 	public static Connection getConnection(String schema,String type) throws SQLException {
 		if(type.equals("Oracle")) {
 			return null;
-		}else {	
-			return getConnection(schema, "Mysql", Constants.DBCONFIG);
+		}else {
+			//System.out.println(DBManager.class.getClassLoader().getResource(Constants.getConfig()));
+			return getConnection(schema, "Mysql", Constants.getDBConfig());
 		}
 	}
 
