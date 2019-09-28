@@ -1,26 +1,16 @@
 package com.conn.db.base.dao;
 
-import java.lang.reflect.Field;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.sql.rowset.CachedRowSet;
-import javax.sql.rowset.RowSetProvider;
-
-import org.slf4j.Logger;
-
 import com.conn.db.base.annotation.DBColumnAnnotation;
 import com.conn.db.base.entity.ProcedureParamBean;
 import com.java.util.StringUtil;
+import org.slf4j.Logger;
+
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetProvider;
+import java.lang.reflect.Field;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DBBaseDao {
@@ -364,7 +354,7 @@ private boolean executeSql(Connection conn,String sql,int timeout,Object...objs)
 				break;
 			}
 		}
-		if(StringUtil.isEmpty(methodName)) {
+		if(StringUtil.isNotEmpty(methodName)) {
 			clazz.getMethod(methodName, dataType).invoke(obj, data);
 		}
 	}
@@ -373,7 +363,7 @@ private boolean executeSql(Connection conn,String sql,int timeout,Object...objs)
 		if(objs==null||objs.length==0) {
 			return;
 		}
-		int i=0;
+		int i=1;
 		for(Object obj:objs) {
 			if(obj instanceof byte[]) {
 				pst.setBytes(i++, (byte[]) obj);
